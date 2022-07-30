@@ -42,4 +42,11 @@ contract TokenBank {
         address indexed from,
         uint256 amount
     );
+
+    constructor (string memory name_, string memory symbol_) {
+        _name = name_;
+        _symbol = symbol_;
+        owner = msg.sender;
+        _balances[owner] = _totalSupply;
+    }
 }
