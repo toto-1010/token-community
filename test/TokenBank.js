@@ -93,6 +93,26 @@ describe("TokenBankコントラクト", function() {
             await expect(tokenBank.connect(addr1).deposit(100))
             .emit(tokenBank, "TokenDeposit").withArgs(addr1.address, 100);
         });
+        it("トークン引き出しが実行できるべき", async function () {
+            const startBankBalance = await tokenBank.connect(addr1).bankBalanceOf(addr1.address);
+            const startTotalBankBalance = await tokenBank.connect(addr1).bankTotalDeposit();
+
+            await tokenBank.connect(addr1).withdraw(100);
+
+            const endBankBalance = await tokenBank.connect(addr1).bankBalanceOf(addr1.address);
+            const endTotalBankBalance = await tokenBank.connect(addr1).bankTotalDeposit();
+
+            expect(endBankBalance).to.equal(startBankBalance.sub(100));
+            expect(endTotalBankBalance).to.equal(startTotalBankBalance.sub(100));
+        });
+        it("預入トークンが不足していた場合、引き出しに失敗すべき", async function () {
+            await expect(tokenBank.connect(addr1).withdraw(101))
+            .to.be.revertedWith("An amount greater than your tokenBank balance!");
+        });
+        it("引き出し後には'TokenWithdraw'イベントが発行されるべき", async function () {
+            await expect(tokenBank.connect(addr1).withdraw(100))
+            .emit(tokenBank, "TokenWithdraw").withArgs(addr1.address, 100);
+        });
     });
 
 });
