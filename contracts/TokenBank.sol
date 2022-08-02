@@ -2,7 +2,13 @@
 
 pragma solidity ^0.8.9;
 
+interface MemberToken {
+    function balanceOf(address owner) external view returns (uint256);
+}
+
 contract TokenBank {
+    MemberToken public memberToken;
+
     /// @dev Tokenの名前
     string private _name;
 
@@ -43,11 +49,28 @@ contract TokenBank {
         uint256 amount
     );
 
-    constructor (string memory name_, string memory symbol_) {
+    constructor (
+        string memory name_,
+        string memory symbol_,
+        address nftContract_
+        ) {
         _name = name_;
         _symbol = symbol_;
         owner = msg.sender;
         _balances[owner] = _totalSupply;
+        memberToken = MemberToken(nftContract_);
+    }
+
+    /// @dev NFTメンバーのみ
+    modifier onlyMember() {
+        require(memberToken.balanceOf(msg.sender) > 0, "not NFT member");
+        _;
+    }
+
+    /// @dev オーナー以外
+    modifier notOwner() {
+        require(owner != msg.sender, "Owner cannot execute");
+        _;
     }
 
     /// @dev Tokenの名前を返す
@@ -71,7 +94,10 @@ contract TokenBank {
     }
 
     /// @dev Tokenを移転する
-    function transfer(address to, uint256 amount) public {
+    function transfer(address to, uint256 amount) public onlyMember {
+        if (owner == msg.sender) {
+            require(_balances[owner] - _bankTotalDeposit >= amount, "Amounts greater than the total supply cannot be transferred");
+        }
         address from = msg.sender;
         _transfer(from, to, amount);
     }
@@ -103,7 +129,7 @@ contract TokenBank {
     }
 
     /// @dev Tokenを預ける
-    function deposit(uint256 amount) public {
+    function deposit(uint256 amount) public onlyMember notOwner {
         address from = msg.sender;
         address to = owner;
 
@@ -115,7 +141,7 @@ contract TokenBank {
     }
 
     /// @dev Tokenを引き出す
-    function withdraw(uint256 amount) public {
+    function withdraw(uint256 amount) public onlyMember notOwner {
         address to = msg.sender;
         address from = owner;
         uint256 toTokenBankBalance = _tokenBankBalances[to];
