@@ -42,6 +42,19 @@ export default function Home() {
     }
   }
 
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+      const accounts = await ethereum.request({
+        method: 'eth_requestAccounts'
+      });
+      console.log(`account: ${accounts[0]}`)
+      setAccount(accounts[0])
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     checkMetaMaskInstalled()
     checkChainId()
@@ -69,7 +82,15 @@ export default function Home() {
           <polygon points="175 0, 350 0, 350 175, 175 175" stroke="black" fill="#90EE90" />
           <polygon points="175 175, 350 175, 350 350, 175 350" stroke="black" fill="#ffff00" />
         </svg>
-      </div>      
+      </div>
+      <div className={'flex mt-1'}>
+        {account === '' ? (
+          <button className={'bg-transparent text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded hover:border-transparent hover:text-white hover:bg-blue-500 hover:cursor-pointer'}
+          onClick={connectWallet}>
+            MetaMaskを接続
+          </button>          
+        ) : (<></>)}
+      </div>
     </div>
   )
 }
