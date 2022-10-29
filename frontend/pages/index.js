@@ -15,7 +15,7 @@ export default function Home() {
   const [nftOwner, setNftOwner] = useState(false)
   const [inputData, setInputData] = useState({ transferAddress: '', transferAmount: '', depositAmount: '', withdrawAmount: '' });
   const [items, setItems] = useState([])
-  const rinkebyId = '0x4'
+  const goerliId = '0x5'
   const zeroAddress = "0x0000000000000000000000000000000000000000";
   
   const checkMetaMaskInstalled = async () => {
@@ -33,8 +33,8 @@ export default function Home() {
       });
       console.log(`chain: ${chain}`);
 
-      if (chain != rinkebyId) {
-        alert('Rinkebyに接続してください！');
+      if (chain != goerliId) {
+        alert('Goerliに接続してください');
         setChainId(false)
         return
       } else {
@@ -327,7 +327,7 @@ export default function Home() {
             </div>
           ) : (
             <div className='flex flex-col justify-center items-center mb-20 font-bold text-2xl gap-y-3'>
-              <div>Rinkebyに接続してください</div>
+              <div>Goerliに接続してください</div>
             </div>)          
         )}
       </div>
