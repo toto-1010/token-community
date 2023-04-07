@@ -21,7 +21,7 @@ export default function Home() {
   });
   const [items, setItems] = useState([]);
   // const goerliId = '0x5'
-  const mumbaiId = "80001";
+  const mumbaiId = "0x80001";
   const zeroAddress = "0x0000000000000000000000000000000000000000";
 
   const checkMetaMaskInstalled = async () => {
@@ -415,7 +415,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="flex flex-col justify-center items-center mb-20 font-bold text-2xl gap-y-3">
-            <div>Goerliに接続してください</div>
+            <div>Mumbaiに接続してください</div>
           </div>
         )}
       </div>
