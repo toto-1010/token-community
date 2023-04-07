@@ -21,7 +21,7 @@ export default function Home() {
   });
   const [items, setItems] = useState([]);
   // const goerliId = '0x5'
-  const mumbaiId = "0x80001";
+  const mumbaiId = "0x13881";
   const zeroAddress = "0x0000000000000000000000000000000000000000";
 
   const checkMetaMaskInstalled = async () => {
