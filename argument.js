@@ -2,6 +2,6 @@
     module.exports = [
         "TokenBank",
         "TBK",
-        "0xEDF11014DBD455698d5D744C56A741135F08C4C1"
+        "0xB7226247A11bfbe8F30a347c75F27e7a368Ad929"
     ]
     
