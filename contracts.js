@@ -1,4 +1,4 @@
 
-    export const memberNFTAddress = "0xEDF11014DBD455698d5D744C56A741135F08C4C1"
-    export const tokenBankAddress = "0xe04e32Ae62209babFA579c3Ae66E5E31196A0383"
+    export const memberNFTAddress = "0x234949D305Fe0e8fEA712a2620119a04307cf552"
+    export const tokenBankAddress = "0xB83eDBc49bE6c657C5e489A78b44Ec2dA3b6e2e6"
     
